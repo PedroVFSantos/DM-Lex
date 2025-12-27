@@ -1,0 +1,13 @@
+a = 5;
+
+func sub {
+    print a;
+}
+
+func principal {
+    a = 100;
+    sub(); 
+}
+
+print a;      // Deve imprimir 5
+principal();  // Deve imprimir 100 (Escopo Dinâmico em ação)

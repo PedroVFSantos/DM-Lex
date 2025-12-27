@@ -1,0 +1,19 @@
+a = 10;
+status = 1;
+
+func sub {
+    if (status) {
+        print a;
+    }
+}
+
+func principal {
+    a = 999;
+    status = 1;
+    sub(); 
+}
+
+print a;      // Deve imprimir 10
+principal();  // Deve imprimir 999 (dinâmico)
+status = 0;
+sub();        // Não deve imprimir nada (if barrou)

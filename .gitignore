@@ -1,0 +1,15 @@
+# Binários e Objetos
+compiler
+*.o
+*.exe
+
+# Arquivos gerados pelo Flex/Bison (Não devem ser versionados)
+src/*.tab.cpp
+src/*.tab.hpp
+src/*.yy.cpp
+src/location.hh
+src/position.hh
+src/stack.hh
+
+# Configurações de IDE
+.vscode/
