@@ -1,35 +1,52 @@
-#include "../include/environment.hpp"
-#include "../include/ast.hpp"
+#include "environment.hpp"
+#include "ast.hpp"
 
+#include <stdexcept>
+
+/* Construtor */
 DynamicEnvironment::DynamicEnvironment() {
-    stack.push_back({}); // Escopo Global
+    stack.emplace_back(); // Escopo global
 }
 
+/* Cria novo escopo dinâmico */
 void DynamicEnvironment::pushScope() {
-    stack.push_back({});
+    stack.emplace_back();
 }
 
+/* Remove escopo atual */
 void DynamicEnvironment::popScope() {
-    if (stack.size() > 1) stack.pop_back();
+    if (stack.size() > 1) {
+        stack.pop_back();
+    }
 }
 
-void DynamicEnvironment::declareVar(std::string name, int value) {
+/* Declara ou atualiza variável no escopo atual */
+void DynamicEnvironment::declareVar(const std::string& name, int value) {
     stack.back()[name] = value;
 }
 
-void DynamicEnvironment::registerFunc(std::string name, Node* body) {
+/* Registra função (escopo dinâmico: corpo sem ambiente capturado) */
+void DynamicEnvironment::registerFunc(const std::string& name, Node* body) {
     functions[name] = body;
 }
 
-Node* DynamicEnvironment::getFunc(std::string name) {
-    if (functions.count(name)) return functions[name];
+/* Recupera função */
+Node* DynamicEnvironment::getFunc(const std::string& name) {
+    auto it = functions.find(name);
+    if (it != functions.end()) {
+        return it->second;
+    }
     throw std::runtime_error("Erro: Funcao '" + name + "' nao definida.");
 }
 
-int DynamicEnvironment::lookup(std::string name) {
-    // REGRA DO ESCOPO DINÂMICO: Busca do topo para a base da pilha
+/* Busca variável respeitando escopo dinâmico */
+int DynamicEnvironment::lookup(const std::string& name) const {
+    // Busca do topo da pilha para a base
     for (auto it = stack.rbegin(); it != stack.rend(); ++it) {
-        if (it->count(name)) return it->at(name);
+        auto var = it->find(name);
+        if (var != it->end()) {
+            return var->second;
+        }
     }
     throw std::runtime_error("Erro: Variavel '" + name + "' nao encontrada.");
 }
