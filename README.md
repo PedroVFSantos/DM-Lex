@@ -375,9 +375,6 @@ SOFTWARE.
 
 **Pedro V. Santos**  
 Computer Science Student
-
-[GitHub](https://github.com/yourusername) • [LinkedIn](https://linkedin.com/in/yourprofile)
-
 *Developed for academic purposes in compiler construction*
 
 </div>
